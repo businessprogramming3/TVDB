@@ -14,17 +14,17 @@ import java.util.List;
 public interface ITVShowDAO {
 
 
-    void createRecord(TVShow employee);
+    void createRecord(TVShow tvshow);
 
     TVShow retrieveRecordById(int id);
 
     List<TVShow> retrieveAllRecords();
 
-    void updateRecord(TVShow updatedEmployee);
+    void updateRecord(TVShow updatedTVShow);
 
     void deleteRecord(int id);
 
-    void deleteRecord(TVShow employee);
+    void deleteRecord(TVShow tvshow);
 
     @Override
     String toString();

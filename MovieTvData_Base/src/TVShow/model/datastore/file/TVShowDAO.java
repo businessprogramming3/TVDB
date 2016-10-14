@@ -28,7 +28,9 @@ import javax.swing.JOptionPane;
 
 
 public class TVShowDAO implements ITVShowDAO {
-
+    
+   
+    
     protected String fileName = null;
     protected final List<TVShow> myList;
 
@@ -55,16 +57,16 @@ public class TVShowDAO implements ITVShowDAO {
     }
 
     @Override
-    public void createRecord(TVShow TVShow) {
-        myList.add(TVShow);
+    public void createRecord(TVShow tvshow) {
+        myList.add(tvshow);
         writeList();
     }
 
     @Override
     public TVShow retrieveRecordById(int id) {
-        for (TVShow TVShow : myList) {
-            if (TVShow.getTvShowID() == id) {
-                return TVShow;
+        for (TVShow tvshow : myList) {
+            if (tvshow.getTvShowId() == id) {
+                return tvshow;
             }
         }
         return null;
@@ -75,17 +77,15 @@ public class TVShowDAO implements ITVShowDAO {
         return myList;
     }
 
-    @Override
-    public void updateRecord(TVShow updatedTVShow) {
-        TVShow updatedTVshow = new TVShow()
-        
-        for (TVShow employee : myList) {
-            if (TVShow.getTvShowID(). == updatedTVShow.getTvShowID()) 
-            {
-                TVShow.setTVShowGenera(updatedTVShow.getTVShowGenera());
-                //TVShow.setDirectorsName(updatedTVShow.getDirectorsName());
-               // TVShow.setWriter(updatedTVShow.getWriter());
-               //TVShow.setRating(updatedTVShow.getRating());
+@Override
+
+    public void updateRecord(TVShow updatedtvshow) {
+        for (TVShow tvshow : myList) {
+            if (tvshow.getTvShowId() == updatedtvshow.getTvShowId()) {
+                tvshow.setTVShowGenera(updatedtvshow.getTVShowGenera());
+                //tvshow.setDirectorsName(updatedTVShow.getDirectorsName());
+                tvshow.setWriter(updatedtvshow.getWriter());
+                tvshow.setRating(updatedtvshow.getRating());
                 break;
             }
         }
@@ -95,7 +95,7 @@ public class TVShowDAO implements ITVShowDAO {
     @Override
     public void deleteRecord(int id) {
         for (TVShow TVShow : myList) {
-            if (TVShow.getTvShowID() == id) {
+            if (TVShow.getTvShowId() == id) {
                 myList.remove(TVShow);
                 break;
             }
@@ -103,11 +103,7 @@ public class TVShowDAO implements ITVShowDAO {
         writeList();
     }
 
-    @Override
-    public void deleteRecord(TVShow TVShow) {
-        myList.remove(TVShow);
-        writeList();
-    }
+ 
 
     private void readList() {
         Path path = Paths.get(fileName);
@@ -120,7 +116,7 @@ public class TVShowDAO implements ITVShowDAO {
                 String Directors = data[2];
                 String Writer = data[3];
                 double Rating = Double.parseDouble(data[4]);
-                TVShow TVShow = new TVShow(id, Genera, Director, Writer, Rating);
+                TVShow TVShow = new TVShow(id, Genera, Writer, Rating);
                 myList.add(TVShow);
             }
         } catch (IOException ioe) {
@@ -131,13 +127,13 @@ public class TVShowDAO implements ITVShowDAO {
     private void writeList() {
         Path path = Paths.get(fileName);
         try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            for (TVShow TVShow : myList) {
+            for (TVShow tvshow : myList) {
                 writer.write(String.format("%d,%s,%s,%s,%.2f\n",
-                        TVShow.getTvShowID(),
-                        TVShow.getTVShowGenera(),
-                   //     TVShow.getDirectorsName(),
-                        TVShow.getWriter(),
-                        TVShow.getRating()));
+                        tvshow.getTvShowId(),
+                        tvshow.getTVShowGenera(),
+                        //TVShow.getDirectorsName(),
+                        tvshow.getWriter(),
+                        tvshow.getRating()));
             }
         } catch (IOException ioe) {
             System.out.println("Write file error with " + ioe.getMessage());
@@ -148,16 +144,21 @@ public class TVShowDAO implements ITVShowDAO {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        for (TVShow TVShow : myList) {
+        for (TVShow tvshow: myList) {
             sb.append(String.format("%5d : %s, %s, %s, %.2f\n",
-                    TVShow.getTvShowID(),
-                    TVShow.getTVShowGenera(),
-                  //  TVShow.getDirectorsName(),
-                    TVShow.getWriter(),
-                    TVShow.getRating()));
+                    tvshow.getTvShowId(),
+                    tvshow.getTVShowGenera(),
+                    //tvshow.getDirectorsName(),
+                    tvshow.getWriter(),
+                    tvshow.getRating()));
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public void deleteRecord(TVShow tvshow) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
 
